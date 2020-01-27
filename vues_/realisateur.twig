@@ -1,0 +1,43 @@
+{% extends 'accueil.twig' %}
+
+
+{% block content %}
+        
+ 
+                    {# Liste les réalisateurs#}
+
+    <div class="d-flex flex-wrap justify-content-around pt-3 text-center">
+        {% for realisateur in realisateurs %}
+            <div class="d-flex flex-column p-3">
+                <a href={{"/realisateurs/detail/"~realisateur.id}}><img class="img-fluid" src="/media/photo-realisateur/tiny/{{realisateur.id}}.jpg" alt="photo réalisateur">
+                <div class="pt-2">
+                    {{ realisateur.realisateur }}
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+
+
+                            {# Détails pour chaque réalisateur #}
+
+    {% for detail in details %}
+        <div class="d-flex flex-column flex-md-row align-items-center align-items-md-start pt-3">
+            <img class="img-fluid" src="/media/photo-realisateur/{{detail.id}}.jpg" alt="photo réalisateur">
+            <div class="d-flex flex-column pl-0 pl-md-5">
+                <div class="films pt-2 pt-md-0">{{ detail.realisateur }}</div>
+                <div class="pt-5"><b>Né(e) le : </b>{{ detail.jour_naissance }} {{ detail.mois_naissance }} {{ detail.annee_naissance }}</div>
+                <div class="pt-3"><b>Lieu de naissance : </b>{{ detail.lieu_naissance }}</div>
+                <div class="pt-3"><b>Nationalité : </b>{{ detail.nationalite }}</div>
+                <div class="pt-3"><b>Filmographie :</b></div>
+                {% set filmids = detail.filmid|split(',') %}
+                {% set filmographie = detail.filmographie|split(',') %}
+                {% for filmid in filmids %}
+                <a href="/films/detail/{{filmid}}">{{ filmographie[loop.index0]~""}}</a>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="pt-3 pb-3"><b>Biographie : </b>{{ detail.biographie }}</div>
+    {% endfor %}
+
+{% endblock %}
